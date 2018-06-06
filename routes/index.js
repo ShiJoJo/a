@@ -1,4 +1,5 @@
 // import about from './about'
+'use strict';
 import admin from './admin'
 
 export default app => {
