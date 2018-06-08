@@ -39,6 +39,7 @@ class Admin extends basePro{
               res.send({
                 status: 1,
                 message: '登录成功',
+                token:1
               })
             }
           }catch(err){
