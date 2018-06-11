@@ -81,6 +81,12 @@ class Admin extends basePro{
         }
       })
     }
+    async loginOut(req,res,next){
+      res.send({
+        status:1,
+        message:'退出成功'
+      })
+    }
     encryption(password){
       const newpassword = this.Md5(this.Md5(password).substr(2, 7) + this.Md5(password));
       return newpassword

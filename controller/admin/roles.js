@@ -11,14 +11,17 @@ class Role extends basePro{
                 name:'关于我们',
                 children:[{
                     path: '/companyFile',
+                    filePath:'/',
                     component: "companyFile",
                     meta: ['关于我们', '公司简介'],
                 },{
                     path: '/culture',
+                    filePath:'/',
                     component: "culture",
                     meta: ['关于我们', '企业文化'],
                 },{
                     path: '/chart',
+                    filePath:'/',
                     component: "chart",
                     meta: ['关于我们', '组织架构'],
                 }]
@@ -26,16 +29,11 @@ class Role extends basePro{
                 path:'权限管理',
                 name:'权限管理',
                 children:[{
-                    path:'/admin',
-                    component: "admin",
-                    meta: ['权限管理', '新增管理员'],
+                    filePath:'/admin/',
+                    path:'/adminList',
+                    component: "adminList",
+                    meta: ['权限管理', '管理员列表'],
                 }]
-            },{
-                id:'3',
-                name:'权限管理',
-                path:'/admins',
-                component: "admin",
-                meta: ['权限管理']
             }
         ])
     }
