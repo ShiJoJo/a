@@ -6,5 +6,6 @@ const router = express.Router()
 router.post('/login', Admin.login);
 router.post('/loginOut', Admin.loginOut);
 router.post('/register', Admin.register);
+router.post('/menu', Role.getAdminMenu);
 router.post('/role', Role.getAdminRole);
 export default router
