@@ -4,7 +4,6 @@ class Role extends basePro{
     constructor(){
         super();
         this.getAdminMenu = this.getAdminMenu.bind(this);
-        this.getAdminRole = this.getAdminRole.bind(this);
     }
     async getAdminMenu(req,res,next){
         res.send([{
@@ -27,7 +26,7 @@ class Role extends basePro{
                 path:'权限管理',
                 name:'权限管理',
                 children:[{
-                    path:'/adminList',
+                    path:'/listAdmin',
                     component: "adminList",
                     name: '管理员列表',
                 }]
