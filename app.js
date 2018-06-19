@@ -5,10 +5,12 @@ import router from './routes/index.js';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import connectMongo from 'connect-mongo';
+var bodyParser = require("body-parser");  
 import path from 'path';
 import history from 'connect-history-api-fallback';
 import chalk from 'chalk';
 const app = express();
+app.use(bodyParser.urlencoded({ extended: false }));
 app.all('*', (req, res, next) => {
 	res.header("Access-Control-Allow-Origin", req.headers.Origin || req.headers.origin);
 	res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");

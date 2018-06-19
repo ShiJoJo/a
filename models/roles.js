@@ -6,6 +6,8 @@ const roleSchema = new Schema({
     fatherRole:Number,
     component:String,
     path:String,
+},{
+    versionKey:false,
 })
 const Role = mongoose.model("Role",roleSchema,"role");
 export default Role

@@ -3,6 +3,8 @@ const Schema = mongoose.Schema;
 const idsList = new Schema({
     admin_id:Number,
     role_id:Number
+},{
+    versionKey:false,
 })
 const Ids = mongoose.model('idsList',idsList,"ids");
 Ids.findOne((err,data)=>{

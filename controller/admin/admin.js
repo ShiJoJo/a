@@ -60,7 +60,7 @@ class Admin extends basePro{
           })
           return
         }
-        const {username,password} = fields;
+        const {username,password,role} = fields;
         const newpassword = this.encryption(password);
         try{
           const admin_id = await this.getIds('admin_id');
@@ -68,7 +68,8 @@ class Admin extends basePro{
             username,
             password:newpassword,
             admin_id:admin_id,
-            create_time:dtime().format('YYYY-MM-DD HH-mm-ss')
+            create_time:dtime().format('YYYY-MM-DD HH-mm-ss'),
+            role
           }
           await adminSchema.create(newAdmin);
           req.session.admin_id = admin_id;
@@ -85,6 +86,24 @@ class Admin extends basePro{
       res.send({
         status:1,
         message:'退出成功'
+      })
+    }
+    async editAdmin(req,res,next){
+      const admin_id = req.body.id;
+      try{
+        const admin = await adminSchema.findOne({admin_id:admin_id});
+        const roleId = JSON.parse(admin.role);
+        Object.keys(roleId).forEach(keys=>{
+          
+        })
+      }catch(err){
+        res.send({
+          status:0,
+          message:"管理员信息获取失败"
+        })
+      }
+      res.send({
+        status:1
       })
     }
     encryption(password){
