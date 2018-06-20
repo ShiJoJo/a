@@ -1,0 +1,6 @@
+{"_id":{"$oid":"5b28a5f0706b8f11e80e5f06"},"id":1,"name":"关于我们","fatherId":0,"children":[3,4,5]}
+{"_id":{"$oid":"5b28a68ee3f0cd11e8210b02"},"id":2,"name":"权限管理","fatherId":0}
+{"_id":{"$oid":"5b28a692e3f0cd11e8210b03"},"id":3,"name":"公司简介","fatherId":1}
+{"_id":{"$oid":"5b28a699e3f0cd11e8210b04"},"id":4,"name":"企业文化","fatherId":1}
+{"_id":{"$oid":"5b28a69be3f0cd11e8210b05"},"id":5,"name":"组织架构","fatherId":1}
+{"_id":{"$oid":"5b28a69ee3f0cd11e8210b06"},"id":6,"name":"管理员列表","fatherId":2}

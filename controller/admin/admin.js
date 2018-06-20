@@ -1,4 +1,5 @@
 import adminSchema from "../../models/admin"
+import roleSchema from "../../models/roles"
 import basePro from "../../prototype/basePro"
 import crypto from 'crypto'
 import formidable from 'formidable'
@@ -9,7 +10,8 @@ class Admin extends basePro{
       super();
       this.login = this.login.bind(this);
       this.register = this.register.bind(this);
-      this.encryption = this.encryption.bind(this);
+      // this.encryption = this.encryption.bind(this);
+      this.editAdmin = this.editAdmin.bind(this);
     }
     async login(req,res,next){
         const form = new formidable.IncomingForm();
@@ -89,12 +91,24 @@ class Admin extends basePro{
       })
     }
     async editAdmin(req,res,next){
-      const admin_id = req.body.id;
+      const admin_id = req.query.id;
+      console.log(admin_id)
       try{
         const admin = await adminSchema.findOne({admin_id:admin_id});
         const roleId = JSON.parse(admin.role);
+        const roleArr = await roleSchema.find();
+        let adminRoleInfo = [];
         Object.keys(roleId).forEach(keys=>{
-          
+          let roleC,infoJson,checkedRole=[];
+          roleC = roleId[keys];
+          infoJson = {
+            id:keys,
+            name:roleArr[Number(keys)].name,
+            roleArr:roleC
+          };
+          Object.keys(roleC).forEach(item=>{
+              
+          })
         })
       }catch(err){
         res.send({

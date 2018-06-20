@@ -4,8 +4,8 @@ const roleSchema = new Schema({
     roleId:Number,
     name:String,
     fatherRole:Number,
-    component:String,
-    path:String,
+    /* component:String,
+    path:String, */
 },{
     versionKey:false,
 })
