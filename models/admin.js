@@ -5,7 +5,7 @@ const adminSchema = new Schema({
     password:String,
     admin_id:Number,
     create_time:String,
-    role:String
+    role:String,
 },{
     versionKey:false,
 })

@@ -92,33 +92,53 @@ class Admin extends basePro{
     }
     async editAdmin(req,res,next){
       const admin_id = req.query.id;
-      console.log(admin_id)
       try{
         const admin = await adminSchema.findOne({admin_id:admin_id});
         const roleId = JSON.parse(admin.role);
         const roleArr = await roleSchema.find();
-        let adminRoleInfo = [];
-        Object.keys(roleId).forEach(keys=>{
-          let roleC,infoJson,checkedRole=[];
-          roleC = roleId[keys];
-          infoJson = {
-            id:keys,
-            name:roleArr[Number(keys)].name,
-            roleArr:roleC
-          };
-          Object.keys(roleC).forEach(item=>{
-              
+        const roleArrF = await roleSchema.find({childrenArr:{$exists:true}},"-_id");
+        let role_id,role_arr=[];
+        Object.keys(roleArrF).forEach(keys=>{
+          console.log(keys)
+          let role_json,role_checkAll=false,role_all=false,role_arrC=roleArrF[keys]["childrenArr"],role_children=[];
+          role_id=roleArrF[keys]["id"];
+          if(roleId[role_id]&&roleId[role_id].length==roleArrF[keys]['childrenArr'].length){
+            role_checkAll=true;
+          }else if(roleId[role_id]&&roleId[role_id].length!=roleArrF[keys]['childrenArr'].length){
+            role_all=true;
+          }
+          role_json={
+            id:role_id,
+            name:roleArrF[keys]['name'],
+            checkAll:role_checkAll,
+            all:role_all,
+            checkedRole:roleId[role_id],
+            roleArr:role_arrC
+          }
+          for(let item=0;item<role_arrC.length;item++){
+            let role_cid = role_arrC[item]-1;
+            role_children.push({
+              id:role_arrC[item],
+              name:roleArr[role_cid]['name']
+            })
+          }
+          Object.keys(role_arrC).forEach(aa=>{
+            console.log(aa)
           })
+          role_json.children=role_children;
+          role_arr.push(role_json);
+        })
+        res.send({
+          status:1,
+          res:role_arr
         })
       }catch(err){
+        console.log(err)
         res.send({
           status:0,
           message:"管理员信息获取失败"
         })
       }
-      res.send({
-        status:1
-      })
     }
     encryption(password){
       const newpassword = this.Md5(this.Md5(password).substr(2, 7) + this.Md5(password));

@@ -4,6 +4,8 @@ const roleSchema = new Schema({
     roleId:Number,
     name:String,
     fatherRole:Number,
+    childrenArr:Array,
+    id:Number
     /* component:String,
     path:String, */
 },{
