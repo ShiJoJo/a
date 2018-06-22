@@ -7,5 +7,6 @@ router.post('/login', Admin.login);
 router.post('/loginOut', Admin.loginOut);
 router.post('/register', Admin.register);
 router.get('/editAdmin', Admin.editAdmin);
+router.post('/editSave', Admin.editSave);
 router.post('/menu', Role.getAdminMenu);
 export default router

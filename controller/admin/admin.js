@@ -12,6 +12,7 @@ class Admin extends basePro{
       this.register = this.register.bind(this);
       // this.encryption = this.encryption.bind(this);
       this.editAdmin = this.editAdmin.bind(this);
+      this.editSave = this.editSave.bind(this);
     }
     async login(req,res,next){
         const form = new formidable.IncomingForm();
@@ -84,6 +85,40 @@ class Admin extends basePro{
         }
       })
     }
+    async editSave(req,res,next){
+      const form = new formidable.IncomingForm();
+      form.parse(req,async(err,fields,files)=>{
+        if(err){
+          res.send({
+            status:0,
+            message:'网络错误'
+          })
+          return
+        }
+        const {username,role,admin_id} = fields;
+        try{
+          await adminSchema.update({admin_id},{
+            username,
+            role
+          },function (error) {  
+            if (error) {  
+                console.error(error);  
+            } else {  
+                console.error("更新用户名成功")  
+            }  
+          });
+          res.send({
+            status:1,
+            message:'保存成功'
+          })
+        }catch(err){
+          res.send({
+            status:0,
+            message:'保存失败'
+          })
+        }
+      })
+    }
     async loginOut(req,res,next){
       res.send({
         status:1,
@@ -92,19 +127,22 @@ class Admin extends basePro{
     }
     async editAdmin(req,res,next){
       const admin_id = req.query.id;
+      let admin,roleId;
+      console.log(admin_id);
+      if(admin_id){
+        admin = await adminSchema.findOne({admin_id:admin_id});
+        roleId = JSON.parse(admin.role);
+      }
       try{
-        const admin = await adminSchema.findOne({admin_id:admin_id});
-        const roleId = JSON.parse(admin.role);
         const roleArr = await roleSchema.find();
         const roleArrF = await roleSchema.find({childrenArr:{$exists:true}},"-_id");
         let role_id,role_arr=[];
         Object.keys(roleArrF).forEach(keys=>{
-          console.log(keys)
           let role_json,role_checkAll=false,role_all=false,role_arrC=roleArrF[keys]["childrenArr"],role_children=[];
           role_id=roleArrF[keys]["id"];
-          if(roleId[role_id]&&roleId[role_id].length==roleArrF[keys]['childrenArr'].length){
+          if(admin_id&&roleId[role_id]&&roleId[role_id].length==roleArrF[keys]['childrenArr'].length){
             role_checkAll=true;
-          }else if(roleId[role_id]&&roleId[role_id].length!=roleArrF[keys]['childrenArr'].length){
+          }else if(admin_id&&roleId[role_id]&&roleId[role_id].length!=roleArrF[keys]['childrenArr'].length){
             role_all=true;
           }
           role_json={
@@ -112,7 +150,7 @@ class Admin extends basePro{
             name:roleArrF[keys]['name'],
             checkAll:role_checkAll,
             all:role_all,
-            checkedRole:roleId[role_id],
+            checkedRole:admin_id?roleId[role_id]:[],
             roleArr:role_arrC
           }
           for(let item=0;item<role_arrC.length;item++){
@@ -122,15 +160,14 @@ class Admin extends basePro{
               name:roleArr[role_cid]['name']
             })
           }
-          Object.keys(role_arrC).forEach(aa=>{
-            console.log(aa)
-          })
           role_json.children=role_children;
           role_arr.push(role_json);
         })
         res.send({
           status:1,
-          res:role_arr
+          res:role_arr,
+          adminName:admin.username,
+          roleId:roleId
         })
       }catch(err){
         console.log(err)
